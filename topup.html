@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Top Up</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+margin:0;
+padding:20px;
+}
+
+h2{
+margin-top:20px;
+}
+
+.packages{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.package{
+background:white;
+padding:15px;
+border-radius:10px;
+border:2px solid #ddd;
+cursor:pointer;
+text-align:center;
+}
+
+.package.selected{
+border:2px solid #7b2ff7;
+}
+
+.box{
+background:white;
+padding:20px;
+margin-top:20px;
+border-radius:10px;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-top:10px;
+}
+
+.btn{
+background:linear-gradient(45deg,#7b2ff7,#a044ff);
+color:white;
+border:none;
+padding:12px;
+width:100%;
+border-radius:8px;
+margin-top:10px;
+}
+
+.pay-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.pay{
+border:2px solid #ddd;
+padding:15px;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+}
+
+.pay.selected{
+border:2px solid red;
+}
+
+.buy{
+background:linear-gradient(45deg,#7b2ff7,#a044ff);
+color:white;
+padding:15px;
+border:none;
+border-radius:10px;
+width:100%;
+font-size:18px;
+margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>💎 Diamond</h2>
+
+<div class="packages">
+
+<div class="package">25 Diamond — 22 TK</div>
+<div class="package">50 Diamond — 39 TK</div>
+<div class="package">115 Diamond — 75 TK</div>
+<div class="package">240 Diamond — 150 TK</div>
+<div class="package">355 Diamond — 240 TK</div>
+<div class="package">480 Diamond — 300 TK</div>
+<div class="package">610 Diamond — 380 TK</div>
+<div class="package">850 Diamond — 540 TK</div>
+
+</div>
+
+<h2>⚡ Special</h2>
+
+<div class="packages">
+
+<div class="package">UCL Light — 1 TK</div>
+<div class="package">UCL — 10 TK</div>
+<div class="package">Matli — 660 TK</div>
+
+</div>
+
+<h2>🔥 Weekly</h2>
+
+<div class="packages">
+
+<div class="package">Weekly — 150 TK</div>
+<div class="package">Weekly 2x — 300 TK</div>
+<div class="package">Weekly 3x — 450 TK</div>
+<div class="package">Weekly 4x — 600 TK</div>
+
+</div>
+
+<h2>⚡ Weekly Lite</h2>
+
+<div class="packages">
+
+<div class="package">Weekly Lite — 45 TK</div>
+<div class="package">Weekly Lite 2x — 90 TK</div>
+<div class="package">Weekly Lite 3x — 135 TK</div>
+<div class="package">Weekly Lite 4x — 180 TK</div>
+
+</div>
+
+<h2>🔥 Evo Gun</h2>
+
+<div class="packages">
+
+<div class="package">Evo Access 3 Days — 80 TK</div>
+<div class="package">Evo Access 7 Days — 120 TK</div>
+<div class="package">Evo Access 14 Days — 220 TK</div>
+
+</div>
+
+<h2>🎟 Level Up Pass</h2>
+
+<div class="packages">
+
+<div class="package">Level Up Pass 6 — 40 TK</div>
+<div class="package">Level Up Pass 10 — 70 TK</div>
+<div class="package">Level Up Pass Full — 420 TK</div>
+
+</div>
+
+<div class="box">
+
+<h2>Account Info</h2>
+
+<input type="text" placeholder="Enter Player UID">
+
+<button class="btn">Click to check player name</button>
+
+</div>
+
+<div class="box">
+
+<h2>Payment Methods</h2>
+
+<div class="pay-grid">
+
+<div class="pay" onclick="selectPay(this)">Wallet</div>
+<div class="pay" onclick="selectPay(this)">Instant Pay</div>
+
+</div>
+
+<h3>Mobile Banking</h3>
+
+<div class="pay-grid">
+
+<div class="pay" onclick="selectPay(this)">bKash</div>
+<div class="pay" onclick="selectPay(this)">Nagad</div>
+
+</div>
+
+<button class="buy">Buy Now</button>
+
+</div>
+
+<script>
+
+function selectPay(el){
+
+let all=document.querySelectorAll(".pay");
+
+all.forEach(p=>p.classList.remove("selected"));
+
+el.classList.add("selected");
+
+}
+
+</script>
+
+</body>
+</html>
