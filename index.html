@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ST TOPUP</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:white;margin:0;padding:0;text-align:center;}
+h1{color:#00ffd5;margin:20px 0;font-size:28px;}
+.section{background:#222;margin:15px;padding:15px;border-radius:12px;}
+.packages{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.package{padding:12px;border-radius:8px;cursor:pointer;transition:0.3s;font-weight:bold;}
+.package:hover{transform:scale(1.05);}
+.package.selected{border:2px solid #00ffd5;}
+
+/* রঙ আলাদা করা */
+.package.diamond{background:#0044ff;}
+.package.evo{background:#ff4444;}
+.package.level{background:#22aa22;}
+
+input{padding:10px;border:none;border-radius:6px;margin:5px;width:80%;font-size:16px;}
+button{padding:12px;border:none;background:#00ffd5;border-radius:6px;font-weight:bold;color:#111;cursor:pointer;font-size:16px;}
+.copy{background:red;color:white;}
+.price{font-size:18px;margin-top:10px;}
+@media(max-width:500px){
+.packages{grid-template-columns:1fr;}
+input{width:90%;}
+}
+</style>
+</head>
+<body>
+
+<h1>💎 ST TOPUP</h1>
+
+<!-- Sign Up -->
+<div class="section">
+<h3>📝 Sign Up with Gmail</h3>
+<input type="text" id="playerName" placeholder="Player Name">
+<input type="email" id="playerEmail" placeholder="Gmail লিখুন">
+<button onclick="signup()">Sign Up</button>
+<p id="signupMsg"></p>
+</div>
+
+<!-- Diamond & Special Packages -->
+<div class="section">
+<h3>💎 Diamond & Special Packages</h3>
+<div class="packages">
+<div class="package diamond" onclick="selectPackage(this,'উকলি লাইট',40)">উকলি লাইট<br>40 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'উকলি',152)">উকলি<br>152 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'মাতলি',750)">মাতলি<br>750 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 25 Diamond',24)">💎 25 Diamond<br>24 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 50 Diamond',41)">💎 50 Diamond<br>41 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 115 Diamond',77)">💎 115 Diamond<br>77 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 240 Diamond',152)">💎 240 Diamond<br>152 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 355 Diamond',242)">💎 355 Diamond<br>242 TK</div>
+<div class="package diamond" onclick="selectPackage(this,'💎 610 Diamond',382)">💎 610 Diamond<br>382 TK</div>
+</div>
+
+<p>💰 নিজের টাকা এড করুন (ঐচ্ছিক):</p>
+<input type="number" id="customPrice" placeholder="যদি নিজের দাম চান, এখানে লিখুন">
+
+<div class="price">
+Selected: <span id="name">None</span><br>
+Price: <span id="price">0</span> TK
+</div>
+</div>
+
+<!-- Evo Gun -->
+<div class="section">
+<h3>🔥 Evo Gun</h3>
+<div class="packages">
+<div class="package evo" onclick="selectPackage(this,'3 Days Evo Gun',72)">3 Days<br>72 TK</div>
+<div class="package evo" onclick="selectPackage(this,'7 Days Evo Gun',87)">7 Days<br>87 TK</div>
+<div class="package evo" onclick="selectPackage(this,'10 Days Evo Gun',102)">10 Days<br>102 TK</div>
+<div class="package evo" onclick="selectPackage(this,'30 Days Evo Gun',332)">30 Days<br>332 TK</div>
+<div class="package evo" onclick="selectPackage(this,'60 Days Evo Gun',662)">60 Days<br>662 TK</div>
+</div>
+</div>
+
+<!-- Level Packs -->
+<div class="section">
+<h3>🎟 Level Packs</h3>
+<div class="packages">
+<div class="package level" onclick="selectPackage(this,'6 Level Pack',70)">6 Level<br>70 TK</div>
+<div class="package level" onclick="selectPackage(this,'10 Level Pack',72)">10 Level<br>72 TK</div>
+<div class="package level" onclick="selectPackage(this,'15 Level Pack',76)">15 Level<br>76 TK</div>
+<div class="package level" onclick="selectPackage(this,'20 Level Pack',80)">20 Level<br>80 TK</div>
+<div class="package level" onclick="selectPackage(this,'25 Level Pack',92)">25 Level<br>92 TK</div>
+<div class="package level" onclick="selectPackage(this,'30 Level Pack',100)">30 Level<br>100 TK</div>
+</div>
+</div>
+
+<!-- Payment -->
+<div class="section">
+<h3>💳 Payment</h3>
+<p>
+Number: <b id="number">01575693872</b>
+<button class="copy" onclick="copyNumber()">Copy</button>
+</p>
+<input type="text" id="txnID" placeholder="Transaction ID দিন">
+</div>
+
+<script>
+let selectedName="", selectedPrice=0;
+
+// Sign Up Function
+function signup(){
+    let name=document.getElementById("playerName").value;
+    let email=document.getElementById("playerEmail").value;
+    if(!name || !email){
+        alert("সব ফিল্ড পূরণ করুন");
+        return;
+    }
+    if(!email.endsWith("@gmail.com")){
+        alert("শুধু Gmail ব্যবহার করতে হবে");
+        return;
+    }
+    alert(`সাইন আপ সম্পন্ন ✅\nPlayer: ${name}\nEmail: ${email}`);
+}
+
+// Select Package + Auto WhatsApp
+function selectPackage(el,name,price){
+    document.querySelectorAll(".package").forEach(p=>p.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedName=name;
+
+    let custom=document.getElementById("customPrice").value;
+    selectedPrice=(custom && custom>0)?custom:price;
+
+    document.getElementById("name")?.innerText=name;
+    document.getElementById("price")?.innerText=selectedPrice;
+
+    sendOrderAuto();
+}
+
+// Copy Number
+function copyNumber(){
+    navigator.clipboard.writeText(document.getElementById("number").innerText);
+    alert("Number Copied");
+}
+
+// Send WhatsApp Message
+function sendOrderAuto(){
+    let player=document.getElementById("playerName").value;
+    let email=document.getElementById("playerEmail").value;
+    let txn=document.getElementById("txnID").value;
+
+    if(!player || !email || !txn){
+        alert("Player Name, Gmail ও Transaction ID দিন");
+        return;
+    }
+
+    let message=`🔥 NEW ORDER 🔥
+Player Name: ${player}
+Email: ${email}
+Package: ${selectedName} (${selectedPrice} TK)
+Transaction ID: ${txn}`;
+
+    let phone="8801575693872";
+    let url="https://wa.me/"+phone+"?text="+encodeURIComponent(message);
+    window.open(url,"_blank");
+}
+</script>
+
+</body>
+</html>
