@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ST TOPUP</title>
+
+<style>
+body{font-family:Arial;background:#f2f2f2;margin:0;text-align:center;}
+.header{display:flex;justify-content:space-between;padding:10px;background:white;align-items:center;}
+.logo img{vertical-align:middle;margin-right:5px;}
+.login{background:#007bff;color:white;padding:8px 15px;border-radius:8px;cursor:pointer;}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px;}
+.card{background:white;border-radius:15px;padding:10px;box-shadow:0 5px 10px rgba(0,0,0,0.1);cursor:pointer;}
+.card img{width:100%;border-radius:10px;}
+.title{font-weight:bold;margin-top:8px;}
+
+.page{display:none;padding:15px;}
+.active{display:block;}
+
+.pack{background:white;margin:10px;padding:15px;border-radius:10px;cursor:pointer;}
+.selected{border:2px solid #007bff;}
+
+input{padding:10px;margin:5px;width:80%;border-radius:8px;border:none;}
+button{padding:10px;border:none;border-radius:8px;background:#007bff;color:white;cursor:pointer;}
+
+.timer{margin-top:10px;color:green;font-weight:bold;}
+</style>
+
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo"><img id="pageLogo" src="https://i.ibb.co/4W2DGKm/topup.png" alt="Logo" width="40"> ST TOPUP</div>
+  <div class="login">Login</div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="active">
+  <div class="grid">
+
+    <div class="card" onclick="openPage('diamond')">
+      <img src="https://i.ibb.co/4W2DGKm/topup.png">
+      <div class="title">UID TOPUP</div>
+    </div>
+
+    <div class="card" onclick="openPage('evo')">
+      <img src="https://i.ibb.co/fF2Zr1F/evo.png">
+      <div class="title">EVO</div>
+    </div>
+
+    <div class="card" onclick="openPage('level')">
+      <img src="https://i.ibb.co/tQ6YJ6x/level.png">
+      <div class="title">LEVEL PASS</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DIAMOND PAGE -->
+<div id="diamond" class="page">
+  <button onclick="back()">⬅ Back</button>
+  <h2>💎 Diamond Price</h2>
+
+  <div class="pack" onclick="select(this,'25 Diamond = 24 TK')">💎 25 = 24 TK</div>
+  <div class="pack" onclick="select(this,'50 Diamond = 41 TK')">💎 50 = 41 TK</div>
+  <div class="pack" onclick="select(this,'115 Diamond = 77 TK')">💎 115 = 77 TK</div>
+  <div class="pack" onclick="select(this,'240 Diamond = 152 TK')">💎 240 = 152 TK</div>
+
+  <input type="text" id="uid" placeholder="Player UID">
+  <input type="text" id="txn" placeholder="Transaction ID">
+
+  <button onclick="order('diamond')">Order Now</button>
+  <div class="timer" id="timer"></div>
+</div>
+
+<!-- EVO PAGE -->
+<div id="evo" class="page">
+  <button onclick="back()">⬅ Back</button>
+  <h2>🔥 Evo Pass</h2>
+
+  <div class="pack" onclick="select(this,'Evo 3 Day = 72 TK')">3 Day = 72 TK</div>
+  <div class="pack" onclick="select(this,'Evo 7 Day = 87 TK')">7 Day = 87 TK</div>
+
+  <input type="text" id="uid2" placeholder="Player UID">
+  <input type="text" id="txn2" placeholder="Transaction ID">
+
+  <button onclick="order('evo')">Order Now</button>
+  <div class="timer" id="timer2"></div>
+</div>
+
+<!-- LEVEL PASS PAGE -->
+<div id="level" class="page">
+  <button onclick="back()">⬅ Back</button>
+  <h2>🎟 Level Pass</h2>
+
+  <div class="pack" onclick="select(this,'Level 6 = 40 TK')">6 Level = 40 TK</div>
+  <div class="pack" onclick="select(this,'Level 10 = 72 TK')">10 Level = 72 TK</div>
+
+  <input type="text" id="uid3" placeholder="Player UID">
+  <input type="text" id="txn3" placeholder="Transaction ID">
+
+  <button onclick="order('level')">Order Now</button>
+  <div class="timer" id="timer3"></div>
+</div>
+
+<script>
+let selectedItem="";
+
+function openPage(page){
+  document.getElementById("home").style.display="none";
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  document.getElementById(page).style.display="block";
+
+  // Change logo according to page
+  let logo = document.getElementById("pageLogo");
+  if(page=="diamond") logo.src = "https://i.ibb.co/4W2DGKm/topup.png";
+  else if(page=="evo") logo.src = "https://i.ibb.co/fF2Zr1F/evo.png";
+  else if(page=="level") logo.src = "https://i.ibb.co/tQ6YJ6x/level.png";
+}
+
+function back(){
+  document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+  document.getElementById("home").style.display="block";
+  document.getElementById("pageLogo").src = "https://i.ibb.co/4W2DGKm/topup.png"; // Home logo
+}
+
+function select(el,item){
+  document.querySelectorAll(".pack").forEach(p=>p.classList.remove("selected"));
+  el.classList.add("selected");
+  selectedItem=item;
+}
+
+function order(page){
+  if(selectedItem==""){ alert("Select Package"); return; }
+
+  // Get UID and Transaction ID for the right page
+  let uid, txn, timer;
+  if(page=="diamond"){
+    uid = document.getElementById("uid").value;
+    txn = document.getElementById("txn").value;
+    timer = document.getElementById("timer");
+  } else if(page=="evo"){
+    uid = document.getElementById("uid2").value;
+    txn = document.getElementById("txn2").value;
+    timer = document.getElementById("timer2");
+  } else if(page=="level"){
+    uid = document.getElementById("uid3").value;
+    txn = document.getElementById("txn3").value;
+    timer = document.getElementById("timer3");
+  }
+
+  if(uid=="" || txn==""){ alert("Enter UID and Transaction ID"); return; }
+
+  // Open WhatsApp
+  let msg = selectedItem + "\nUID: " + uid + "\nTxn: " + txn;
+  window.open("https://wa.me/8801575693872?text=" + encodeURIComponent(msg));
+
+  // Start Timer
+  let time=180;
+  timer.innerHTML = "";
+  let interval = setInterval(()=>{
+    let m=Math.floor(time/60);
+    let s=time%60;
+    timer.innerHTML="⏳ "+m+":"+(s<10?"0"+s:s);
+    time--;
+    if(time<0){
+      clearInterval(interval);
+      timer.innerHTML="✅ Done";
+    }
+  },1000);
+}
+</script>
+
+</body>
+</html>
