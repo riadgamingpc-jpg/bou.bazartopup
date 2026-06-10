@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RX TOP UP BD</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0b0b12;
+    color:white;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(90deg,#ff9800,#ff5722);
+    padding:18px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* MAIN GRID */
+.container{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    padding:10px;
+}
+
+/* BOX */
+.box{
+    background:#141420;
+    padding:12px;
+    border-radius:10px;
+}
+
+/* TITLE */
+h2{
+    color:#ffcc00;
+    font-size:18px;
+}
+
+/* PACK BUTTON */
+.pack{
+    background:#1f1f2e;
+    padding:10px;
+    margin:6px 0;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    cursor:pointer;
+}
+
+.pack:hover{
+    background:#2c2c40;
+}
+
+/* BUTTON */
+button{
+    padding:10px;
+    width:100%;
+    margin-top:8px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.order{
+    background:linear-gradient(90deg,#ff9800,#ff5722);
+    color:white;
+}
+
+/* INPUT */
+input,select{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    border-radius:8px;
+    border:none;
+}
+
+/* GRID BUTTONS */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.grid button{
+    background:#ff9800;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:10px;
+    background:#000;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔥 RX TOP UP BD 🔥</header>
+
+<div class="container">
+
+<!-- LEFT -->
+<div class="box">
+
+<h2>💳 Payment</h2>
+<div class="pack"><span>bKash</span><span>01851634841</span></div>
+<div class="pack"><span>Nagad</span><span>01851634841</span></div>
+
+<h2>🧾 Order</h2>
+
+<input id="uid" placeholder="Game UID">
+<input id="number" placeholder="Mobile Number">
+<input id="pack" placeholder="Selected Package" readonly>
+
+<button class="order" onclick="order()">ORDER NOW</button>
+
+</div>
+
+<!-- MIDDLE -->
+<div class="box">
+
+<h2>💎 Diamond</h2>
+<div class="grid">
+<button onclick="select('25 Diamond - 22 TK')">25</button>
+<button onclick="select('50 Diamond - 39 TK')">50</button>
+<button onclick="select('115 Diamond - 75 TK')">115</button>
+<button onclick="select('240 Diamond - 150 TK')">240</button>
+<button onclick="select('355 Diamond - 220 TK')">355</button>
+<button onclick="select('480 Diamond - 300 TK')">480</button>
+</div>
+
+<h2>🎮 Evo Gun</h2>
+<div class="grid">
+<button onclick="select('AK47 Blue Flame - 1200 TK')">AK47</button>
+<button onclick="select('MP40 Cobra - 1500 TK')">MP40</button>
+<button onclick="select('M4A1 Infernal - 1400 TK')">M4A1</button>
+<button onclick="select('SCAR Megalodon - 1300 TK')">SCAR</button>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="box">
+
+<h2>🎟 Level Pass</h2>
+<div class="grid">
+<button onclick="select('Basic Pass - 100 TK')">Basic</button>
+<button onclick="select('Elite Pass - 200 TK')">Elite</button>
+<button onclick="select('Premium Pass - 300 TK')">Premium</button>
+</div>
+
+<h2>📦 Status</h2>
+<p id="status">No Order Yet</p>
+
+</div>
+
+</div>
+
+<footer>© RX TOP UP BD 2026</footer>
+
+<script>
+function select(p){
+    document.getElementById("pack").value = p;
+}
+
+function order(){
+    let uid = document.getElementById("uid").value;
+    let number = document.getElementById("number").value;
+    let pack = document.getElementById("pack").value;
+
+    if(!uid || !number || !pack){
+        alert("সব তথ্য দিন!");
+        return;
+    }
+
+    document.getElementById("status").innerText = "Order Placed ✔";
+
+    console.log({uid, number, pack});
+}
+</script>
+
+</body>
+</html>
