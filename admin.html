@@ -1,0 +1,191 @@
+topup-site/
+│
+├── server.js
+├── package.json
+├── orders.json
+│
+└── public/
+    └── index.const express = require("express");
+const fs = require("fs");
+const app = express();
+
+app.use(express.json());
+app.use(express.static("public"));
+
+const FILE = "orders.json";
+
+// Get orders
+app.get("/orders", (req, res) => {
+    const data = fs.existsSync(FILE)
+        ? JSON.parse(fs.readFileSync(FILE))
+        : [];
+    res.json(data);
+});
+
+// Create order
+app.post("/order", (req, res) => {
+    let data = fs.existsSync(FILE)
+        ? JSON.parse(fs.readFileSync(FILE))
+        : [];
+
+    const order = {
+        id: Date.now(),
+        ...req.body,
+        status: "pending"
+    };
+
+    data.push(order);
+    fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
+
+    res.json({ message: "Order placed", order });
+});
+
+app.listen(3000, () => {
+    console.log("Server running: http://localhost:3000");
+});{
+  "name": "topup-site",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}[]<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বউ বাজার টপ আপ</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#111,#222);
+    color:white;
+}
+
+header{
+    background:orange;
+    padding:15px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.section{
+    padding:15px;
+}
+
+h2{
+    background:#333;
+    padding:10px;
+    border-radius:8px;
+}
+
+.pack{
+    background:#2c2c2c;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    cursor:pointer;
+}
+
+.price{
+    color:#00ffcc;
+    font-weight:bold;
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:8px;
+    border-radius:8px;
+}
+
+button{
+    padding:10px;
+    width:95%;
+    background:orange;
+    border:none;
+    font-weight:bold;
+    border-radius:8px;
+}
+
+footer{
+    background:#000;
+    text-align:center;
+    padding:10px;
+    margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>বউ বাজার টপ আপ</header>
+
+<div class="section">
+
+<h2>🧾 Order Form</h2>
+
+<input id="uid" placeholder="Game UID">
+<input id="number" placeholder="Mobile Number">
+<input id="pack" placeholder="Selected Package" readonly>
+
+<button onclick="placeOrder()">Order Now</button>
+
+<p id="msg"></p>
+
+<h2>🔥 Diamond Packages</h2>
+
+<div class="pack" onclick="selectPack('25 Diamond - 22 TK')">
+<span>25 Diamond</span><span class="price">22 টাকা</span></div>
+
+<div class="pack" onclick="selectPack('50 Diamond - 39 TK')">
+<span>50 Diamond</span><span class="price">39 টাকা</span></div>
+
+<div class="pack" onclick="selectPack('115 Diamond - 75 TK')">
+<span>115 Diamond</span><span class="price">75 টাকা</span></div>
+
+<div class="pack" onclick="selectPack('240 Diamond - 150 TK')">
+<span>240 Diamond</span><span class="price">150 টাকা</span></div>
+
+<h2>⚡ Weekly</h2>
+<div class="pack" onclick="selectPack('Weekly - 150 TK')">
+<span>Weekly</span><span class="price">150 টাকা</span></div>
+
+<h2>💎 Monthly</h2>
+<div class="pack" onclick="selectPack('Monthly - 750 TK')">
+<span>Monthly</span><span class="price">750 টাকা</span></div>
+
+</div>
+
+<footer>© 2026 বউ বাজার টপ আপ</footer>
+
+<script>
+function selectPack(p){
+    document.getElementById("pack").value = p;
+}
+
+function placeOrder(){
+    const uid = document.getElementById("uid").value;
+    const number = document.getElementById("number").value;
+    const pack = document.getElementById("pack").value;
+
+    fetch("/order", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ uid, number, pack })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("msg").innerText = "Order Successful!";
+    });
+}
+</script>
+
+</body>npm install
+node server.http://localhost:3000
+</html>
