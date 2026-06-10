@@ -1,0 +1,98 @@
+const mongoose = require("mongoose");
+
+const orderSchema = new mongoose.Schema({
+  customerName: String,
+  phone: String,
+  packageName: String,
+  transactionId: String,
+  status: { type: String, default: "pending" },
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model("Order", orderSchema);
+const express = require("express");
+const router = express.Router();
+const Order = require("../models/Order");
+
+router.post("/create", async (req, res) => {
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.json({ success: true, message: "অর্ডার সফল হয়েছে!" });
+  } catch (err) {
+    res.json({ success: false, error: err.message });
+  }
+});
+
+module.exports = router;const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect("mongodb://127.0.0.1:27017/bau_bazar")
+  .then(() => console.log("Database Connected"))
+  .catch(err => console.log(err));
+
+app.use("/api/orders", require("./routes/orderRoutes"));
+
+app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Bau Bazar - মিষ্টি বক্স অফার</title>
+    <style>
+        body { background-color: #000; color: #fff; font-family: Arial; text-align: center; padding: 20px; }
+        .box { border: 1px solid #444; padding: 20px; margin: 15px auto; max-width: 400px; border-radius: 10px; }
+        input, select { display: block; width: 90%; margin: 10px auto; padding: 10px; border-radius: 5px; }
+        button { background: #ff4081; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🍬 Bau Bazar – মিষ্টি বক্স অফার</h1>
+    <div class="box">
+        <ul>
+            <li>🎁 মিষ্টি বক্স – 22৳</li>
+            <li>🎁 মিষ্টি বক্স – 99৳</li>
+            <li>🎁 মিষ্টি বক্স – 299৳</li>
+            <li>🎁 মিষ্টি বক্স – 999৳</li>
+        </ul>
+    </div>
+    <div class="box">
+        <h3>💳 পেমেন্ট: bKash / Nagad – 01851634841</h3>
+        <form id="orderForm">
+            <input type="text" id="name" placeholder="আপনার নাম" required>
+            <input type="text" id="phone" placeholder="আপনার ফোন নম্বর" required>
+            <select id="package">
+                <option>মিষ্টি বক্স – 22৳</option>
+                <option>মিষ্টি বক্স – 99৳</option>
+                <option>মিষ্টি বক্স – 299৳</option>
+                <option>মিষ্টি বক্স – 999৳</option>
+            </select>
+            <input type="text" id="txId" placeholder="ট্রানজেকশন আইডি" required>
+            <button type="submit">অর্ডার করুন</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                customerName: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                packageName: document.getElementById('package').value,
+                transactionId: document.getElementById('txId').value
+            };
+            const res = await fetch("http://localhost:5000/api/orders/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            alert("অর্ডার সফল হয়েছে!");
+        });
+    </script>
+</body>
+</html>node_modules
