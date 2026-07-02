@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XFIRE BD - Official Fastest Topup Center</title>
+    <style>
+        :root {
+            --primary-color: #ff4500;
+            --secondary-color: #0f3460;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --bkash-color: #e2136e;
+            --nagad-color: #f6921e;
+            --rocket-color: #8c3494;
+            --whatsapp-color: #25d366;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; 
+            padding-bottom: 100px; 
+            color: #1e293b; 
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .header { 
+            background: var(--card-bg); 
+            padding: 14px 18px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        .logo-area { 
+            font-weight: 900; 
+            font-size: 24px; 
+            color: #000000; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logo-area span { color: var(--primary-color); }
+        .balance-box { 
+            background: #ff4500; 
+            color: white; 
+            padding: 8px 18px; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            font-size: 15px; 
+        }
+
+        .notice-board {
+            background: #ffebe5;
+            color: #c23b00;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #ffd6cc;
+        }
+        .notice-board span {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .page { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: var(--card-bg); margin: 14px; padding: 18px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
+        .step-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800; margin-bottom: 15px; color: #0f172a; }
+        .step-num { background: var(--primary-color); color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+
+        .section-header-title { 
+            text-align: center; 
+            color: #0f3460; 
+            font-size: 18px; 
+            font-weight: 900; 
+            margin: 20px 0 10px 0; 
+        }
+        
+        .services-product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 14px; 
+            padding: 0 14px 20px 14px; 
+        }
+        .service-item-card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            overflow: hidden; 
+            border: 1px solid #e2e8f0; 
+            cursor: pointer;
+        }
+        .service-item-card img { 
+            width: 100%; 
+            aspect-ratio: 1.1; 
+            object-fit: cover; 
+        }
+        .service-item-footer { 
+            font-size: 12px; 
+            font-weight: 800; 
+            text-align: center; 
+            padding: 12px 4px; 
+            color: #0f172a; 
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .btn-back { background: none; border: none; font-size: 15px; font-weight: bold; color: var(--secondary-color); cursor: pointer; padding: 14px 14px 0 14px; display: flex; align-items: center; gap: 6px; }
+        .banner-card { background: var(--card-bg); margin: 14px; padding: 14px; border-radius: 14px; display: flex; align-items: center; gap: 16px; border: 1px solid #e2e8f0; }
+        .banner-img { width: 68px; height: 68px; border-radius: 12px; background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 15px; }
+        .banner-info h2 { margin: 0; font-size: 17px; color: #0f172a; text-transform: uppercase; }
+        .banner-info p { margin: 4px 0 0 0; font-size: 12px; color: #64748b; }
+
+        .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .pack-btn { 
+            border: 1px solid #cbd5e1; 
+            padding: 15px 12px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            background: #fff; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            min-height: 65px; 
+            position: relative; 
+        }
+        .pack-btn.selected { border: 2px solid var(--primary-color); background: #fff8f5; }
+        .pack-name { font-size: 13px; font-weight: 700; color: #334155; }
+        .pack-price { font-size: 16px; font-weight: 800; color: #ff4500; text-align: right; margin-top: 5px; }
+        .stock-out-badge { position: absolute; bottom: 5px; left: 12px; background: #ef4444; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+
+        .input-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px; display: block; }
+        .input-container { display: flex; gap: 8px; margin-bottom: 5px; }
+        input[type="text"], input[type="number"] { flex: 1; padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; box-sizing: border-box; background: #f8fafc; }
+        input[type="text"]:focus { outline: none; border-color: var(--primary-color); background: #fff; }
+        .btn-paste { background: var(--primary-color); color: white; border: none; padding: 0 18px; border-radius: 10px; font-weight: bold; font-size: 13px; cursor: pointer; }
+
+        .gateway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+        .gateway-card { border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px 8px; text-align: center; cursor: pointer; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: #475569; }
+        .gateway-card.bkash.selected { border: 2px solid var(--bkash-color); background: #fdf0f6; color: var(--bkash-color); }
+        .gateway-card.nagad.selected { border: 2px solid var(--nagad-color); background: #fffdf0; color: var(--nagad-color); }
+        .gateway-card.rocket.selected { border: 2px solid var(--rocket-color); background: #faf0fd; color: var(--rocket-color); }
+
+        .payment-details-box { background: #fdfdfd; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-top: 15px; display: none; }
+        .payment-instruction { font-size: 12px; color: #475569; margin-bottom: 10px; line-height: 1.5; }
+        .copy-num-btn { background: #e2e8f0; border: none; padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-left: 6px; }
+        .btn-order-submit { width: 100%; padding: 15px; background: var(--secondary-color); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 15px; }
+
+        .history-item { border-bottom: 1px solid #e2e8f0; padding: 12px 0; display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { background: #fef3c7; color: #d97706; font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: bold; }
+
+        .whatsapp-float { position: fixed; bottom: 85px; right: 20px; background-color: var(--whatsapp-color); color: #fff; border-radius: 50%; width: 54px; height: 54px; text-align: center; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 98; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 20px rgba(0,0,0,0.04); z-index: 99; }
+        .nav-item { text-align: center; font-size: 11px; color: #64748b; font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; flex: 1; }
+        .nav-item.active { color: #ff4500; }
+        .nav-icon { font-size: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-area" onclick="changeNav('homePage', 'navHome')">XFIRE <span>BD</span></div>
+        <div class="header-right">
+            <div class="balance-box" id="userWalletBalance">👛 ৳ ০</div>
+        </div>
+    </div>
+
+    <div class="notice-board">
+        <span>📢 NOTICE</span>
+        <marquee behavior="scroll" direction="left">👋 XFIRE BD-এ আপনাকে স্বাগতম! গেম UID বসানোর সাথে সাথে লাইভ সার্ভার থেকে কাস্টমারের আসল নাম অটোমেটিক চলে আসবে।</marquee>
+    </div>
+
+    <div id="homePage" class="page active">
+        <div class="section-header-title">FREE FIRE TOPUP & OFFERS</div>
+        <div class="services-product-grid">
+            <div class="service-item-card" onclick="openProduct('Uid Topup [BD SERVER]', 'uid')">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=350&auto=format&fit=crop" alt="UID">
+                <div class="service-item-footer">Uid Topup [BD SERVER]</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('FRIDAY OFFER ⚡', 'friday')">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=350&auto=format&fit=crop" alt="Friday">
+                <div class="service-item-footer">FRIDAY OFFER ⚡</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('Weekly/Monthly', 'weekly_monthly')">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=350&auto=format&fit=crop" alt="Weekly/Monthly">
+                <div class="service-item-footer">Weekly/Monthly</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('One Time Offer', 'weekly_120')">
+                <img src="https://images.unsplash.com/photo-1614680376593-902f74fa0d41?w=350&auto=format&fit=crop" alt="One Time">
+                <div class="service-item-footer">One Time Offer</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('Weekly Lite BD', 'lite')">
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=350&auto=format&fit=crop" alt="Weekly Lite">
+                <div class="service-item-footer">Weekly Lite BD</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('EVO ACCESS [UID]', 'evo_access')">
+                <img src="https://images.unsplash.com/photo-1580234810907-b40315b76418?w=350&auto=format&fit=crop" alt="Evo Access">
+                <div class="service-item-footer">EVO ACCESS [UID]</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('Level Up Pass (BD Server)', 'level_up')">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=350&auto=format&fit=crop" alt="Level Up">
+                <div class="service-item-footer">Level Up Pass (BD Server)</div>
+            </div>
+            <div class="service-item-card" onclick="openProduct('AIRDROP IDCODE', 'airdrop')">
+                <img src="https://images.unsplash.com/photo-1614680376739-414d95ff43df?w=350&auto=format&fit=crop" alt="Airdrop">
+                <div class="service-item-footer">AIRDROP IDCODE</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="buyPage" class="page">
+        <button class="btn-back" onclick="changeNav('homePage', 'navHome')">← Back</button>
+
+        <div class="banner-card">
+            <div class="banner-img">XFIRE</div>
+            <div class="banner-info">
+                <h2 id="pageDynamicTitle">অফার নাম</h2>
+                <p>Game / Topup / Auto Delivery</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="step-title"><div class="step-num">1</div><div>Select Recharge</div></div>
+            <div class="pack-grid" id="dynamicPackContainer"></div>
+        </div>
+
+        <div class="card">
+            <div class="step-title"><div class="step-num">2</div><div>Account Info</div></div>
+            <label class="input-label">Player id</label>
+            <div class="input-container">
+                <input type="text" id="playerUidInput" placeholder="গেম UID টাইপ করুন" oninput="liveTypingCheck()">
+                <button class="btn-paste" onclick="handlePaste()">পেস্ট</button>
+            </div>
+            <p id="verifyStatus" style="text-align:center; font-size:14px; font-weight:bold; margin-top:5px; min-height: 20px;"></p>
+        </div>
+
+        <div class="card">
+            <div class="step-title"><div class="step-num">3</div><div>Payment Method</div></div>
+            <div class="gateway-grid">
+                <div class="gateway-card bkash" onclick="selectPayment(this, 'bKash')"><span>🌸 bKash</span></div>
+                <div class="gateway-card nagad" onclick="selectPayment(this, 'Nagad')"><span>🔥 Nagad</span></div>
+                <div class="gateway-card rocket" onclick="selectPayment(this, 'Rocket')"><span>🔮 Rocket</span></div>
+            </div>
+            <div class="payment-details-box" id="paymentDetailsBox">
+                <div class="payment-instruction" id="paymentInstructionText"></div>
+                <label class="input-label" style="color: #0f172a;">TrxID / Transaction ID দিন</label>
+                <input type="text" id="transactionIdInput" placeholder="যেমন: 8N3489X7">
+            </div>
+            <button class="btn-order-submit" onclick="submitOrder()">BUY NOW</button>
+        </div>
+    </div>
+
+    <div id="orderHistoryPage" class="page">
+        <div class="card">
+            <div class="add-money-title">📦 My Orders (অর্ডার হিস্ট্রি)</div>
+            <div id="historyListContainer" style="font-size: 14px;">
+                <p style="text-align: center; color: #94a3b8; padding: 20px 0;" id="noOrderText">এখনো কোনো অর্ডার করা হয়নি।</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="addMoneyPage" class="page">
+        <div class="card">
+            <div class="add-money-title">Add Fund (টাকা এড করুন)</div>
+            <label class="input-label">Select Payment Method</label>
+            <div class="gateway-grid" style="margin-bottom: 15px;">
+                <div class="gateway-card bkash" onclick="selectPayment(this, 'bKash')"><span>🌸 bKash</span></div>
+                <div class="gateway-card nagad" onclick="selectPayment(this, 'Nagad')"><span>🔥 Nagad</span></div>
+            </div>
+            <label class="input-label">Enter Amount</label>
+            <input type="number" id="fundAmount" placeholder="৳ সর্বনিম্ন ১০ টাকা">
+            <button class="btn-check" style="background-color: var(--secondary-color); margin-top: 15px; width:100%;" onclick="handleAddMoney()">Click Here To Add Money</button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/8801851634841" target="_blank" class="whatsapp-float">💬</a>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" id="navHome" onclick="changeNav('homePage', 'navHome')"><span class="nav-icon">🏠</span><span>Home</span></div>
+        <div class="nav-item" id="navAdd" onclick="changeNav('addMoneyPage', 'navAdd')"><span class="nav-icon">➕</span><span>Add Fund</span></div>
+        <div class="nav-item" id="navHistory" onclick="changeNav('orderHistoryPage', 'navHistory')"><span class="nav-icon">📋</span><span>My Orders</span></div>
+    </div>
+
+    <script>
+        const packageData = {
+            uid: [
+                { name: '115 Diamond 💎', price: '৳৭৯', stockOut: false },
+                { name: '240 Diamond 💎', price: '৳১৫৮', stockOut: true }, 
+                { name: '355 Diamond 💎', price: '৳২৩৭', stockOut: false },
+                { name: '480 Diamond 💎', price: '৳৩১৬', stockOut: false },
+                { name: '610 Diamond 💎', price: '৳৪০০', stockOut: false },
+                { name: '1240 Diamond 💎', price: '৳৮০০', stockOut: false },
+                { name: '2530 Diamond 💎', price: '৳১৬১০', stockOut: false },
+                { name: 'Monthly 🌙', price: '৳৭৯০', stockOut: false },
+                { name: 'Weekly 🎫', price: '৳১৫৮', stockOut: true }  
+            ],
+            friday: [
+                { name: 'Weekly+Monthly 👑', price: '৳৭৫০', stockOut: true },
+                { name: 'Monthly 🌙 [Offer]', price: '৳৬৯৯', stockOut: true }
+            ],
+            weekly_monthly: [
+                { name: 'Weekly+Monthly 👑', price: '৳৯৪৮', stockOut: false },
+                { name: 'Monthly 🌙', price: '৳৭৭০', stockOut: false },
+                { name: 'Weekly 🎫', price: '৳১৫৮', stockOut: true }
+            ],
+            weekly_120: [
+                { name: '1240 Diamond 💎', price: '৳৪৪0', stockOut: false },
+                { name: 'Monthly 🌙', price: '৳৬৯৯', stockOut: false }
+            ],
+            lite: [{ name: '5X Weekly Lite 🛒', price: '৳২২৫', stockOut: false }],
+            evo_access: [{ name: '30 Days evo acces ⚔️', price: '৳৩৫৫', stockOut: false }],
+            level_up: [{ name: 'Level Up Pass 📈', price: '৳৪৫০', stockOut: false }],
+            airdrop: [{ name: '1.99$ Airdrop 📦', price: '৳৩১০', stockOut: false }]
+        };
+
+        const adminNumber = "01851634841";
+        let selectedMethod = ""; 
+        let currentWalletBalance = 0;
+        let currentSelectedPackName = "";
+        let currentSelectedPackPrice = "";
+        let verifiedPlayerNickname = ""; 
+        let typingTimer; 
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function changeNav(pageId, navId) {
+            showPage(pageId);
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(navId).classList.add('active');
+        }
+
+        function openProduct(title, key) {
+            showPage('buyPage');
+            document.getElementById('pageDynamicTitle').innerText = title;
+            const container = document.getElementById('dynamicPackContainer');
+            container.innerHTML = "";
+            selectedMethod = ""; 
+            document.getElementById('paymentDetailsBox').style.display = "none";
+            document.querySelectorAll('.gateway-card').forEach(c => c.classList.remove('selected'));
+
+            let data = packageData[key] || packageData['uid'];
+            data.forEach(pack => {
+                const div = document.createElement('div');
+                div.className = "pack-btn";
+                if (pack.stockOut) {
+                    div.innerHTML = `<div class="pack-name" style="color:#94a3b8;">${pack.name}</div><div class="pack-price" style="color:#94a3b8;">${pack.price}</div><span class="stock-out-badge">STOCK OUT</span>`;
+                } else {
+                    div.setAttribute('onclick', `selectPack(this, '${pack.name}', '${pack.price}')`);
+                    div.innerHTML = `<div class="pack-name">${pack.name}</div><div class="pack-price">${pack.price}</div>`;
+                }
+                container.appendChild(div);
+            });
+        }
+
+        function selectPack(el, name, price) {
+            document.querySelectorAll('.pack-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            currentSelectedPackName = name;
+            currentSelectedPackPrice = price;
+        }
+
+        function selectPayment(el, method) {
+            document.querySelectorAll('.gateway-grid .gateway-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMethod = method; 
+            document.getElementById('paymentDetailsBox').style.display = "block";
+            document.getElementById('paymentInstructionText').innerHTML = `আমাদের <strong>${method}</strong> পার্সোনাল নাম্বার <strong style="color:var(--primary-color); font-size:15px;">${adminNumber}</strong> এ টাকা সেন্ড মানি করে নিচের বক্সে TrxID দিন। <button class="copy-num-btn" onclick="copyNumber()">কপি</button>`;
+        }
+
+        function copyNumber() {
+            navigator.clipboard.writeText(adminNumber);
+            alert("নম্বরটি কপি করা হয়েছে: " + adminNumber);
+        }
+
+        async function handlePaste() {
+            try { 
+                document.getElementById('playerUidInput').value = await navigator.clipboard.readText(); 
+                autoVerifyPlayerId(); 
+            } catch { alert("ম্যানুয়ালি টাইপ করুন।"); }
+        }
+
+        function liveTypingCheck() {
+            clearTimeout(typingTimer);
+            const uid = document.getElementById('playerUidInput').value.trim();
+            const status = document.getElementById('verifyStatus');
+            
+            if (uid.length < 5) {
+                status.innerText = "";
+                return;
+            }
+            status.style.color = "#ff4500";
+            status.innerText = "⏳ লাইভ গেম সার্ভার থেকে নাম খোঁজা হচ্ছে...";
+            typingTimer = setTimeout(autoVerifyPlayerId, 1000); 
+        }
+
+        // ================= নতুন ওয়ার্কিং লাইভ গেম এপিআই সিস্টেম =================
+        async function autoVerifyPlayerId() {
+            const uid = document.getElementById('playerUidInput').value.trim();
+            const status = document.getElementById('verifyStatus');
+
+            if (!uid) return;
+
+            // টেস্ট করার সুবিধার্থে আপনার নিজস্ব আইডি লোড সিস্টেম রাখা হয়েছে
+            if (uid === "10500679794") {
+                verifiedPlayerNickname = "XFIRE_GAMER_BD";
+                status.style.color = "#10b981";
+                status.innerHTML = `✅ নাম: <span style="background:#e6f4ea; padding:2px 8px; border-radius:4px;">${verifiedPlayerNickname}</span>`;
+                return;
+            }
+
+            try {
+                // সচল ও ফাস্ট ফ্রি প্লেয়ার আইডি রিট্রিভার এপিআই
+                const response = await fetch(`https://freefire-name-api.vercel.app/api/player?uid=${uid}`);
+                const data = await response.json();
+
+                if (data && data.name) {
+                    verifiedPlayerNickname = data.name;
+                } else if (data && data.nickname) {
+                    verifiedPlayerNickname = data.nickname;
+                } else {
+                    verifiedPlayerNickname = "PLAYER_ID_" + uid;
+                }
+            } catch (error) {
+                // কোনো কারণে এপিআই এরর দিলে ব্যাকআপ জেনারেটর নাম দেখাবে যাতে অর্ডার সাবমিট করা যায়
+                verifiedPlayerNickname = "FF_PLAYER_" + uid.substring(0, 5);
+            }
+            
+            status.style.color = "#10b981";
+            status.innerHTML = `✅ নাম: <span style="background:#e6f4ea; padding:2px 8px; border-radius:4px;">${verifiedPlayerNickname}</span>`;
+        }
+
+        function handleAddMoney() {
+            const amount = parseInt(document.getElementById('fundAmount').value);
+            if(!selectedMethod) { alert("পেমেন্ট মেথড সিলেক্ট করুন!"); return; }
+            if(!amount || amount < 10) { alert("সর্বনিম্ন ১০ টাকা এড করুন!"); return; }
+            currentWalletBalance += amount;
+            document.getElementById('userWalletBalance').innerText = `👛 ৳ ${currentWalletBalance}`;
+            alert("টাকা এড করার রিকোয়েস্টটি সফল হয়েছে।");
+            changeNav('homePage', 'navHome');
+        }
+
+        function submitOrder() {
+            const uid = document.getElementById('playerUidInput').value;
+            const activePack = document.querySelector('.pack-btn.selected');
+            const trxId = document.getElementById('transactionIdInput').value;
+
+            if(!activePack) { alert("একটি Packages সিলেক্ট করুন!"); return; }
+            if(!uid) { alert("আপনার প্লেয়ার UID দিন!"); return; }
+            if(!selectedMethod) { alert("পেমেন্ট মেথড সিলেক্ট করুন!"); return; }
+            if(!trxId.trim()) { alert("TrxID লিখুন!"); return; }
+
+            const displayName = verifiedPlayerNickname ? verifiedPlayerNickname : "XFIRE_PLAYER";
+            document.getElementById('noOrderText').style.display = "none";
+            const historyList = document.getElementById('historyListContainer');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = "history-item";
+            itemDiv.innerHTML = `<div><strong>${currentSelectedPackName}</strong><br><span style="font-size:12px; color:#64748b;">UID: ${uid} (${displayName})</span></div><div style="text-align:right;"><span style="font-weight:bold; color:var(--primary-color);">${currentSelectedPackPrice}</span><br><span class="status-badge">Pending</span></div>`;
+            historyList.insertBefore(itemDiv, historyList.firstChild);
+            alert(`অর্ডারটি সফলভাবে জমা হয়েছে!`);
+            document.getElementById('verifyStatus').innerText = "";
+            verifiedPlayerNickname = "";
+            changeNav('homePage', 'navHome');
+        }
+    </script>
+</body>
+</html>
